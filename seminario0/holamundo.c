@@ -3,6 +3,8 @@
 
 /*
 *	Codigo basico con la implementacion de un hola mundo y la peitcion al usuario de un numero que se mostrara por pantalla.
+*	
+*	Codigo creado por Nicolas Meseguer.
 */
 
 int main() {
