@@ -4,6 +4,13 @@
 #define FILAS 5
 #define COL 5
 
+/*
+*
+*	Creacion de una matriz dinamica y posterior print para mostrarla por pantalla.
+*
+*	Codigo creado por Nicolas Meseguer Ibora
+*/
+
 int main(){
 	float **matriz;
 	matriz = (float **)malloc(sizeof(float *)*FILAS);
