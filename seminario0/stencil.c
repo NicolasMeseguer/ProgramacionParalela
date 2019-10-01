@@ -15,6 +15,7 @@ int main(){
 	//Asignacion de tamaño
 	float *A = (float *) malloc(sizeof(float)*TAM);
 	float *B = (float *) malloc(sizeof(float)*TAM);	
+	int temp;	
 
 	//Asignacion de valores y muestra por pantalla
 	printf("\n\n\nArray de valores resultante: \n");
@@ -28,9 +29,11 @@ int main(){
 	//Aplicamos el metodo Stencil como en el ejercicio dado...
 	printf("Nuevo array de valores: \n\n");
 	*B = *A;
-	*(B+TAM) = *(A+TAM-1);
+	temp = TAM-1;
+	*(B+temp) = *(A+temp);
 
 	for(int j=0; j<NUM_ITER; ++j){
+		printf("\nIteracion %i: \n\n", j+1);
 		for(int i=1; i<TAM-1; ++i){
 			printf("%f + %f + %f = ", *(A+i-1), *(A+i), *(A+i+1));
 			*(B+i)=(float)((*(A+i-1))+(*(A+i))+(*(A+i+1))*0.3);
