@@ -75,40 +75,4 @@ int main(){
 	for(int i=0;i<ROW*COL;++i){
 		printf("%f ,",*(B+i));
 	}
-
-    /*
-	//Iniciamos las matrices
-	float **A = (float **)malloc(sizeof(float *)*ROW);
-	float **B = (float **)malloc(sizeof(float *)*ROW);
-    float memsize = sizeof(float)*COL;
-
-    //Reservamos memoria
-    for(int i=0;i<ROW;++i){
-        *(A+i)=(float *)malloc(memsize);
-        *(B+i)=(float *)malloc(memsize);
-    }
-
-    //Rellenamos la matriz
-    printf("\nMatriz resultante...\n");
-    for(int i=0;i<ROW;++i){
-        for(int j=0; j<COL; ++j) {
-            *(*(A+i)+j)=(float)(rand()%50);
-            printf("%f ,", *(*(A+i)+j));
-        }
-        printf("\n");
-    }
-
-    //Aplicamos Jacobi a la matriz y lo guardamos en la matriz B
-    printf("\nAplicamos Jacobi...\n");
-    for(int k=0;k<LIMIT;++k){
-        for(int i=0;i<ROW;++i){
-            for(int j=0;j<COL;++j){
-                *(*(B+i)+j) = *(*(A+i)+j)+*(*(A+i)+j+1)+*(*(A+i)+j-1)+*(*(A+i-1)+j)+*(*(A+i+1)+j);
-            }
-        }
-        float **aux=A;
-        A=B;
-        B=aux;
-    }*/
 }
-
