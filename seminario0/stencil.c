@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define TAM 20
+#define NUM_ITER 100
 
 /*
 *	Metodo Stencil de para un array sencillo
@@ -13,7 +14,8 @@
 int main(){
 	//Asignacion de tamaño
 	float *A = (float *) malloc(sizeof(float)*TAM);
-	
+	float *B = (float *) malloc(sizeof(float)*TAM);	
+
 	//Asignacion de valores y muestra por pantalla
 	printf("\n\n\nArray de valores resultante: \n");
 	for(int i=0; i<TAM; ++i){
@@ -25,11 +27,25 @@ int main(){
 	
 	//Aplicamos el metodo Stencil como en el ejercicio dado...
 	printf("Nuevo array de valores: \n\n");
-	for(int i=0; i<TAM; ++i){
-		printf("%f + %f + %f = ", *(A+i-1), *(A+i), *(A+i+1));
-		*(A+i)=(float)((*(A+i-1))+(*(A+i))+(*(A+i+1)));
-		printf("%f\n", *(A+i));
+	*B = *A;
+	*(B+TAM) = *(A+TAM-1);
+
+	for(int j=0; j<NUM_ITER; ++j){
+		for(int i=1; i<TAM-1; ++i){
+			printf("%f + %f + %f = ", *(A+i-1), *(A+i), *(A+i+1));
+			*(B+i)=(float)((*(A+i-1))+(*(A+i))+(*(A+i+1))*0.3);
+			printf("%f\n", *(B+i));
+		}
+		//Intercambio los punteros para ejecutarlo infinitamente
+		float *aux = A;
+		A = B;
+		B = aux;
 	}
+
+	//Resultado...
+	printf("Resultado tras aplicar Stencil...\n");
+	for(int i=0;i<TAM;++i)
+		printf("%f ,", *(B+i));
 	
 	printf("\n\n\n");
 
