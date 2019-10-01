@@ -18,6 +18,8 @@ int main(){
     printf("Valor del array A - \n");
     for(int i=0;i<ROW*COL;++i){
 		printf("%f ,",*(A+i));
+		if(i!=0 && (i+1)%5==0)
+			printf("\n");
 	}
 
 	//Aplicamos Jacobi a nuestra matriz
