@@ -61,7 +61,7 @@ int main(){
 
 
                 printf("\n[%i][%i] = 1/3 + %f + %f + %f + %f + %f = ", i, j, ij, j1, j2, i1, i2);
-				*(B+(i*ROW)+j)=0.3*(ij+j1+j2+i1+i2);
+				*(B+(i*ROW)+j)=0.5*(ij+j1+j2+i1+i2);
                 printf("%f \n", *(B+(i*ROW)+j));
 			}
 		}
@@ -71,14 +71,30 @@ int main(){
 	}
 
 	//Forma 2 Jacobi, extremos = 150 y solo sumo por el interior.
+	/*for(int k=0; k<LIMIT;++k){
+		for(int i=1;i<(ROW-1);++i){
+			for(int j=1;j<(COL-1);++j){
+				*(B+(i*ROW)+j)=*(A+(ROW*i)+j)+*(A+(ROW*i)+j+1)+*(A+(ROW*i)+j-1)+*(A+(ROW*(i+1))+j)+*(A+(ROW*(i-1))+j);
+			}
+		}
+		float *aux=A;
+		A=B;
+		B=aux;
+	}*/
+
 
 	printf("\nValor del array A: \n");
 	for(int i=0;i<ROW*COL;++i){
 		printf("%f ,",*(A+i));
+		if(i!=0 && (i+1)%5==0)
+			printf("\n");
 	}
-
-	printf("\nValor del array B: \n");
+	
+	//Este es el valor la matriz que contiene los valores anteriores.
+	/*printf("\nValor del array B: \n");
 	for(int i=0;i<ROW*COL;++i){
 		printf("%f ,",*(B+i));
-	}
+		if(i!=0 && (i+1)%5==0)
+			printf("\n");
+	}*/
 }
