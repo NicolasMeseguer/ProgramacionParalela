@@ -12,8 +12,12 @@ int main(){
 
 	//Primero vamos a inicializar la matriz A, dandole valores
 	for(int i=0; i<ROW; ++i)
-		for(int j=0;j<COL;j++)
-			*(A+(i*ROW)+j)=(float) (rand()%10);
+		for(int j=0;j<COL;j++){
+			if(i==0||i==ROW-1||j==0||j==COL-1)
+				*(A+(i*ROW)+j)=150.0f;
+			else
+				*(A+(i*ROW)+j)=(float) (rand()%10);
+		}
 
     printf("Valor del array A - \n");
     for(int i=0;i<ROW*COL;++i){
@@ -65,6 +69,8 @@ int main(){
         A=B;
         B=aux;
 	}
+
+	//Forma 2 Jacobi, extremos = 150 y solo sumo por el interior.
 
 	printf("\nValor del array A: \n");
 	for(int i=0;i<ROW*COL;++i){
