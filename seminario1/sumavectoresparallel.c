@@ -20,7 +20,7 @@ int main() {
 	{
 		id=omp_get_thread_num(); //Alternativa a pragma omp for 
 		for(int i=(id*2); i<((id*2)+2); ++i)
-			c[i]=a[i]+b[i];
+			*(c+i)=*(a+i)+*(b+i);
 	}
 
 
