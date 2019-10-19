@@ -18,9 +18,10 @@ int main() {
 	omp_set_num_threads(4);
 	#pragma omp parallel
 	{
-		id=omp_get_thread_num(); //Alternativa a pragma omp for 
-		for(int i=(id*2); i<((id*2)+2); ++i)
+		for(int i=omp_get_thread_num(); i<TAM; i+=omp_get_num_threads()){
+			printf("Soy el hilo %i y accedo a %d\n", omp_get_thread_num(), i);
 			*(c+i)=*(a+i)+*(b+i);
+		}
 	}
 
 
