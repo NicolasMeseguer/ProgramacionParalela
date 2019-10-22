@@ -18,51 +18,52 @@ void asignarValor(float *v){
 int main() {
 	double start;
 	int numthreads;
-	float *vector = asignarMemoria();
+	float *vector = asignarMemoria(), resultado=0.0f;
 	asignarValor(vector);
 
-	numthreads=1;//Como hago realloc con dos hilos ? El array se me fopasdkasf
+	numthreads=2;
 	start = omp_get_wtime();
 	//PROGRAMA
-	#pragma omp parallel for num_threads(numthreads) firstprivate(vector)
-	for(int i=TAM; i>=0; --i){
-		vector = (float *) realloc(vector, i);
-	}
-	//FIN PROGRAMA
-	printf("\n-------------------------------------------\nTiempo de ejecucion del programa con %i hilos: %lfs\n-------------------------------------------\n",numthreads,omp_get_wtime()-start);
-
-	vector = asignarMemoria();asignarValor(vector);
-	numthreads=1; 
-	start = omp_get_wtime();
-	//PROGRAMA
-	#pragma omp parallel for num_threads(numthreads)
-	for(int i=TAM; i>=0; --i){
-		vector = (float *) realloc(vector, i);
+	#pragma omp parallel for num_threads(numthreads) firstprivate(vector) reduction(+:resultado)
+	for(int i=0; i<TAM; ++i){
+		resultado += *(vector+i);
 	}
 	//FIN PROGRAMA
 	printf("\n-------------------------------------------\nTiempo de ejecucion del programa con %i hilos: %lfs\n-------------------------------------------\n",numthreads,omp_get_wtime()-start);
 	
-	vector = asignarMemoria();asignarValor(vector);	
-	numthreads=1;
+	resultado=0;
+	numthreads=4; 
 	start = omp_get_wtime();
 	//PROGRAMA
-	#pragma omp parallel for num_threads(numthreads)
-	for(int i=TAM; i>=0; --i){
-		vector = (float *) realloc(vector, i);
+	#pragma omp parallel for num_threads(numthreads) firstprivate(vector) reduction(+:resultado)
+	for(int i=0; i<TAM; ++i){
+		resultado += *(vector+i);
 	}
 	//FIN PROGRAMA
 	printf("\n-------------------------------------------\nTiempo de ejecucion del programa con %i hilos: %lfs\n-------------------------------------------\n",numthreads,omp_get_wtime()-start);
 	
-	vector = asignarMemoria();asignarValor(vector);	
-	numthreads=1;
+	resultado=0;
+	numthreads=6;
 	start = omp_get_wtime();
 	//PROGRAMA
-	#pragma omp parallel for num_threads(numthreads)
-	for(int i=TAM; i>=0; --i){
-		vector = (float *) realloc(vector, i);
+	#pragma omp parallel for num_threads(numthreads) firstprivate(vector) reduction(+:resultado)
+	for(int i=0; i<TAM; ++i){
+		resultado+=*(vector+i);
 	}
 	//FIN PROGRAMA
 	printf("\n-------------------------------------------\nTiempo de ejecucion del programa con %i hilos: %lfs\n-------------------------------------------\n",numthreads,omp_get_wtime()-start);
 	
+	resultado=0;
+	numthreads=8;
+	start = omp_get_wtime();
+	//PROGRAMA
+	#pragma omp parallel for num_threads(numthreads) firstprivate(vector) reduction(+:resultado)
+	for(int i=0; i<TAM; ++i){
+		resultado+=*(vector+i);
+	}
+	//FIN PROGRAMA
+	printf("\n-------------------------------------------\nTiempo de ejecucion del programa con %i hilos: %lfs\n-------------------------------------------\n",numthreads,omp_get_wtime()-start);
+	
+	printf("\nResultado: %f", resultado);
 	return 0;	
 }

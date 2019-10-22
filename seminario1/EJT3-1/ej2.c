@@ -19,8 +19,12 @@ int main() {
 	printf("\n\n\nCASO 2 - A, como variable firstprivate !\n");
 	#pragma omp parallel num_threads(4) firstprivate(A) //Variable A es privada a cada hilo pero se inicializa con el valor de A
 	{
+		#pragma omp single
+		{
 		printf("\nEl valor de A es: %i", A);
 		A++;
+		printf("\nEl nuevo valor de A es: %i", A);
+		}
 	}
 	printf("\nFuera del paralelismo, el valor de A sigue siendo el mismo: %i", A);
 
