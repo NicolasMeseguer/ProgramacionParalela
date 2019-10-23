@@ -14,7 +14,7 @@ void rellenarArray(float *M){
 }
 
 int main() {
-	double start,tiempo2,tiempo4,tiempo6,tiempo8=0;float total=0.0f;int numthreads;
+	double start,tiempo2=0,tiempo4=0,tiempo6=0,tiempo8=0;float total=0.0f;int numthreads;
 	float *a=(float *)malloc(sizeof(float)*TAM);
 	float *b=(float *)malloc(sizeof(float)*TAM);
 	rellenarArray(a);rellenarArray(b);	
