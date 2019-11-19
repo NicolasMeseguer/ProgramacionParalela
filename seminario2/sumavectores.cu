@@ -6,8 +6,7 @@
 #define TAM 8
 
 __global__ void sumaVectores(float *c, float *a, float *b){ //Kernel, salto a la GPU.
-  	int i = blockIdx.x threadIdx.x
-
+  	int i = blockIdx.x*1+threadIdx.x; //1 es el tamaño de cada bloque
 		c[i]=a[i]+b[i];
 }
 
