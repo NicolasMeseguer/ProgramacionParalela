@@ -2,12 +2,15 @@
 #include <stdlib.h>
 #include <cuda.h>
 #include <string.h>
+#include <math.h>
 
-#define TAM 8
+#define TAM 7
+#define TAMBLOCK 2
 
-__global__ void sumaVectores(float *c, float *a, float *b){ //Kernel, salto a la GPU.
-  	int i = blockIdx.x*1+threadIdx.x; //1 es el tamaño de cada bloque
-		c[i]=a[i]+b[i];
+__global__ void sumaVectores(float *c, float *a, float *b){ //Kernel, salto a la GPU. Esta funcion es ejecutada por todos los hilos al mismo tiempo.
+  	int i = blockIdx.x*blockDim.x+threadIdx.x; //Obtengo el indice para cada iteracion de la funcion sobre cada hilo
+    if(i<TAM)
+		  c[i]=a[i]+b[i];
 }
 
 int main() {
@@ -39,7 +42,10 @@ int main() {
   cudaMemcpy(d_c, h_c, memsize, cudaMemcpyHostToDevice);//No haria falta puesto que h_c esta vacio pero bueno...
   /**/
   
-  sumaVectores <<< 8, 1>>> (d_c, d_a, d_b);
+  int block = ceilf((float)TAM/TAMBLOCK);
+  int thread = TAMBLOCK;
+  printf("El numero de bloques es %d, y el numero de hilos es %d\n", block, thread);
+  sumaVectores <<<block,thread>>> (d_c, d_a, d_b);//El multiplicar ambos numeros tiene que darme N
 
   //Envio el contenido del array(d_c) CONTENIDO ! Al espacio de memoria ya reservado en la CPU(h_c). GPU -> CPU | Device -> Host
   cudaMemcpy(h_c, d_c, memsize, cudaMemcpyDeviceToHost);
