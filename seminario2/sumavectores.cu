@@ -4,13 +4,18 @@
 #include <string.h>
 #include <math.h>
 
-#define TAM 7
+#define TAM 8
 #define TAMBLOCK 2
 
 __global__ void sumaVectores(float *c, float *a, float *b){ //Kernel, salto a la GPU. Esta funcion es ejecutada por todos los hilos al mismo tiempo.
-  	int i = blockIdx.x*blockDim.x+threadIdx.x; //Obtengo el indice para cada iteracion de la funcion sobre cada hilo
-    if(i<TAM)
-		  c[i]=a[i]+b[i];
+  	int ix = blockIdx.x*blockDim.x+threadIdx.x; //Obtengo el indice para cada iteracion de la funcion sobre cada hilo
+    if(ix<(int)ceilf(TAM/2)) {
+		  c[ix]=a[ix]+b[ix];
+      c[ix+(int) ceilf(TAM/2)] = a[ix+(int) ceilf(TAM/2)] + b[ix+(int) ceilf(TAM/2)];
+    }
+    /*for(int i=ix;i<TAM;i+=(int)ceilf(TAM/2)){
+      c[i]=a[i]+b[i];
+    }*/
 }
 
 int main() {
@@ -42,7 +47,7 @@ int main() {
   cudaMemcpy(d_c, h_c, memsize, cudaMemcpyHostToDevice);//No haria falta puesto que h_c esta vacio pero bueno...
   /**/
   
-  int block = ceilf((float)TAM/TAMBLOCK);
+  int block = ceilf(((float)TAM/TAMBLOCK)/2);
   int thread = TAMBLOCK;
   printf("El numero de bloques es %d, y el numero de hilos es %d\n", block, thread);
   sumaVectores <<<block,thread>>> (d_c, d_a, d_b);//El multiplicar ambos numeros tiene que darme N
