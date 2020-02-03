@@ -5,12 +5,13 @@
 #include <math.h>
 
 #define TAM 8
-#define NITERACIONES 40
+#define NITERACIONES 10
 #define TAMBLOCK 2
 
 __global__ void stencil(float *a, float *b){ //Kernel, salto a la GPU. Esta funcion es ejecutada por todos los hilos al mismo tiempo.
-  int i = blockIdx.x*blockDim.x+threadIdx.x+1;
-  b[i]=(a[i-1]+a[i]+a[i+1])/3;
+  int idx = blockIdx.x*blockDim.x+threadIdx.x+1;
+   for(int i=idx; i<TAM-1; i+=TAMBLOCK)
+      b[i]=(a[i-1]+a[i]+a[i+1])/3;
 }
 
 int main() {
@@ -30,7 +31,7 @@ int main() {
   cudaMemcpy(d_a, h_a, memsize, cudaMemcpyHostToDevice);
   cudaMemcpy(d_b, h_b, memsize, cudaMemcpyHostToDevice);
  
-  dim3 block((TAM-2)/TAMBLOCK);
+  dim3 block(1);
   dim3 thread(TAMBLOCK); 
   printf("El numero de bloques es %d, y el numero de hilos es %d\n", block.x, thread.x);
   for(int j=0;j<NITERACIONES;++j){

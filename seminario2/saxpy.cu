@@ -5,17 +5,17 @@
 #include <math.h>
 
 #define TAM 7
-#define TAMBLOCK 2
+#define TAMBLOCK 4
 
 __global__ void sumaVectores(float *c, float *a, float *b, int *escalar){ //Kernel, salto a la GPU. Esta funcion es ejecutada por todos los hilos al mismo tiempo.
-  	int i = blockIdx.x*blockDim.x+threadIdx.x; //Obtengo el indice para cada iteracion de la funcion sobre cada hilo
-    if(i<TAM)
+  	int i = threadIdx.x; //Obtengo el indice para cada iteracion de la funcion sobre cada hilo
+    for(;i < TAM; i+=TAMBLOCK)
 		  c[i]=(*(escalar)*a[i])+b[i];
 }
 
 void inicializarArrays(float *a, float *b){
 	for(int i=0; i<TAM; ++i)
-		a[i]=b[i]=(float)(rand()%50);
+		a[i]=b[i]=1.0f;//(float)(rand()%50);
 }
 
 int main() {
@@ -54,7 +54,7 @@ int main() {
   /*Para comprobar que se ha copiado correctamente vamos a volver a traerlo a host y comprobar su valor mediante un printf.*/
   cudaMemcpy(&aux_escalar, d_escalar, sizeof(int), cudaMemcpyDeviceToHost); 
 
-  int block = ceilf((float)TAM/TAMBLOCK);
+  int block = 1;
   int thread = TAMBLOCK;
   printf("El numero de bloques es %d, y el numero de hilos es %d\n", block, thread);
   printf("El valor del escalar en HOST: %d, en DEVICE: %d\n", h_escalar, aux_escalar);
